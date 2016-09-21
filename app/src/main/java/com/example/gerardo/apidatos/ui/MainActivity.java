@@ -105,27 +105,27 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.d("PAGE_SCROLLED", String.valueOf(position));
+//        Log.d("PAGE_SCROLLED", String.valueOf(position));
     }
 
     @Override
     public void onPageSelected(int position) {
         switch (position){
             case 0:
-                editValue.setHint("Rut o Nombre completo");
+                editValue.setHint(R.string.hintRutNombre);
                 break;
             case 1:
-                editValue.setHint("Patente Ej: vk730");
+                editValue.setHint(R.string.hintPatente);
                 break;
             case 2:
-                editValue.setHint("IMEI del teléfono");
+                editValue.setHint(R.string.hintImei);
                 break;
         }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        Log.d("PAGE_SCROLLSTATECHANGED", String.valueOf(state));
+//        Log.d("PAGE_SCROLLSTATECHANGED", String.valueOf(state));
     }
 
     @OnClick(R.id.btn_buscar)
