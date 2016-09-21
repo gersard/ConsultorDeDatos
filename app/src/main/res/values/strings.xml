@@ -7,4 +7,7 @@
     <string name="hintRutNombre">Rut o Nombre completo</string>
     <string name="hintImei">IMEI del teléfono</string>
     <string name="hintPatente">Patente Ej: vk730</string>
+    <string name="obtenerIMEI">Obtener IMEI</string>
+    <string name="msgeImeiCopiado">IMEI Copiado</string>
+    <string name="msgeNoImei">No se pudo obtener el IMEI</string>
 </resources>

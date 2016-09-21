@@ -1,16 +1,22 @@
 package com.example.gerardo.apidatos.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.gerardo.apidatos.PagerAdapter;
 import com.example.gerardo.apidatos.R;
@@ -96,7 +102,26 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_getImei) {
+            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+            String imei = telephonyManager.getDeviceId();
+            if (imei != null){
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(getString(R.string.msgeImeiCopiado),imei);
+                clipboard.setPrimaryClip(clip);
+
+                final Toast toast = Toast.makeText(MainActivity.this, getString(R.string.msgeImeiCopiado), Toast.LENGTH_SHORT);
+                toast.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toast.cancel();
+                    }
+                }, 900);
+            }else{
+                Toast.makeText(MainActivity.this, R.string.msgeNoImei, Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
 
