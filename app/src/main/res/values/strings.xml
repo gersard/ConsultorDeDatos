@@ -10,4 +10,7 @@
     <string name="obtenerIMEI">Obtener IMEI</string>
     <string name="msgeImeiCopiado">IMEI Copiado</string>
     <string name="msgeNoImei">No se pudo obtener el IMEI</string>
+    <string name="mensajeHomePersona">Escriba el Rut o el Nombre Completo en el campo superior</string>
+    <string name="mensajeHomePatente">Escriba la Patente del Vehículo en el campo superior</string>
+    <string name="mensajeHomeImei">Escriba el IMEI del telefono en el campo superior \nPuedes obtener TU IMEI desde el menu superior</string>
 </resources>

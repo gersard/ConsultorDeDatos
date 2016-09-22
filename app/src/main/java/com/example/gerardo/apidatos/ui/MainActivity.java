@@ -11,11 +11,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gerardo.apidatos.PagerAdapter;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     EditText editValue;
     @Bind(R.id.btn_buscar)
     ImageButton btnBuscar;
+    @Bind(R.id.txt_msge_principal)
+    TextView txtMensajePrincipal;
 
 
     @Override
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         //Setea a que fragment queremos dejar que aparesca al inicio
 //        viewPager.setCurrentItem(1,true);
 
+        txtMensajePrincipal.setText(R.string.mensajeHomePersona);
     }
 
     private void setupViewPager(boolean mostrar) {
@@ -96,18 +100,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_getImei) {
-            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             String imei = telephonyManager.getDeviceId();
-            if (imei != null){
+
+            if (imei != null) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(getString(R.string.msgeImeiCopiado),imei);
+                ClipData clip = ClipData.newPlainText(getString(R.string.msgeImeiCopiado), imei);
                 clipboard.setPrimaryClip(clip);
 
                 final Toast toast = Toast.makeText(MainActivity.this, getString(R.string.msgeImeiCopiado), Toast.LENGTH_SHORT);
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         toast.cancel();
                     }
                 }, 900);
-            }else{
+            } else {
                 Toast.makeText(MainActivity.this, R.string.msgeNoImei, Toast.LENGTH_SHORT).show();
             }
             return true;
@@ -135,15 +138,21 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 editValue.setHint(R.string.hintRutNombre);
+                editValue.setText("");
+                txtMensajePrincipal.setText(R.string.mensajeHomePersona);
                 break;
             case 1:
                 editValue.setHint(R.string.hintPatente);
+                editValue.setText("");
+                txtMensajePrincipal.setText(R.string.mensajeHomePatente);
                 break;
             case 2:
                 editValue.setHint(R.string.hintImei);
+                editValue.setText("");
+                txtMensajePrincipal.setText(R.string.mensajeHomeImei);
                 break;
         }
     }
@@ -156,4 +165,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @OnClick(R.id.btn_buscar)
     public void onClick() {
     }
+
+    public void setOnClickListenerBuscar(View.OnClickListener listener){
+        btnBuscar.setOnClickListener(listener);
+    }
+
 }
