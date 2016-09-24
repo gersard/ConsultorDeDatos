@@ -13,18 +13,16 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     @GET("/")
-    Call<Persona> getDatosPersona (@Query(ApiConstants.PARAM_MODULO) String modulo, @Query(ApiConstants.PARAM_KEY) String key,
-                          @Query(ApiConstants.PARAM_VALOR) String valor);
+    void getDatosPersona (@Query("modulo") int modulo, @Query("key") String key, @Query("valor") String valor,
+                          Call<Persona> personaCallback);
 
     @GET("/")
-    void getDatosPatente (@Query(ApiConstants.PARAM_MODULO) String modulo, @Query(ApiConstants.PARAM_KEY) String key,
-                          @Query(ApiConstants.PARAM_VALOR) String valor,
+    void getDatosPatente (@Query("modulo") int modulo, @Query("key") String key, @Query("valor") String valor,
                           Call<Persona> personaCallback);
 
 
     @GET("/")
-    void getDatosIMEI (@Query(ApiConstants.PARAM_MODULO) String modulo, @Query(ApiConstants.PARAM_KEY) String key,
-                       @Query(ApiConstants.PARAM_VALOR) String valor,
+    void getDatosIMEI (@Query("modulo") int modulo, @Query("key") String key, @Query("valor") String valor,
                           Call<Persona> personaCallback);
 
 
