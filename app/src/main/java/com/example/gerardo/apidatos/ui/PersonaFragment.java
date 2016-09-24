@@ -1,8 +1,13 @@
 package com.example.gerardo.apidatos.ui;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +52,9 @@ public class PersonaFragment extends Fragment {
     @Bind(R.id.cv_persona)
     CardView cardViewPersona;
 
+    BroadcastReceiver mMessageReceiver;
+
+
     public PersonaFragment() {
         // Required empty public constructor
     }
@@ -56,18 +64,24 @@ public class PersonaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_persona, container, false);
-
-
         ButterKnife.bind(this, root);
-//        cardViewPersona.setVisibility(View.GONE);
+        cardViewPersona.setVisibility(View.GONE);
 
-        MainActivity m = new MainActivity();
-        m.setOnClickListenerBuscar(new View.OnClickListener() {
+        mMessageReceiver = new BroadcastReceiver() {
             @Override
-            public void onClick(View v) {
-                Log.d("PRUEBA","FUNCIONO");
+            public void onReceive(Context context, Intent intent) {
+                int numFragment = intent.getIntExtra("numFragment",99);
+
+                if (numFragment==0){
+                    cardViewPersona.setVisibility(View.VISIBLE);
+                }
+
             }
-        });
+        };
+
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+                new IntentFilter("name"));
 
         return root;
     }
@@ -78,6 +92,11 @@ public class PersonaFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onDetach() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
+        super.onDetach();
+    }
 
 
 }

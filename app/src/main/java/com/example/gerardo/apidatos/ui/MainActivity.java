@@ -3,14 +3,17 @@ package com.example.gerardo.apidatos.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Bind(R.id.txt_msge_principal)
     TextView txtMensajePrincipal;
 
+//    private Callbacks mCallbacks;
+//
+//    public interface Callbacks {
+//        public void onBackPressedCallback(View v);
+//    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 //        viewPager.setCurrentItem(1,true);
 
         txtMensajePrincipal.setText(R.string.mensajeHomePersona);
+
     }
 
     private void setupViewPager(boolean mostrar) {
@@ -76,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
 
     }
-
     private ArrayList<Fragment> buildFragments() {
         ArrayList<Fragment> fragments = new ArrayList<>();
 
@@ -164,10 +173,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @OnClick(R.id.btn_buscar)
     public void onClick() {
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent("name");
+
+        // You can also include some extra data.
+        intent.putExtra("numFragment", viewPager.getCurrentItem());
+        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
     }
 
-    public void setOnClickListenerBuscar(View.OnClickListener listener){
-        btnBuscar.setOnClickListener(listener);
-    }
+
 
 }
