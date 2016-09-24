@@ -14,11 +14,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.gerardo.apidatos.BuildConfig;
 import com.example.gerardo.apidatos.R;
+import com.example.gerardo.apidatos.core.GlobalFunctions;
+import com.example.gerardo.apidatos.datos.ApiAdapter;
+import com.example.gerardo.apidatos.datos.ApiConstants;
+import com.example.gerardo.apidatos.modelo.Persona;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -71,9 +80,30 @@ public class PersonaFragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 int numFragment = intent.getIntExtra("numFragment",99);
+                String rut = intent.getStringExtra("valor");
 
                 if (numFragment==0){
-                    cardViewPersona.setVisibility(View.VISIBLE);
+                    if (GlobalFunctions.validarRut(rut)){
+                        //SE HACE VISIBLE LA VISTA DE INFORMACION
+                        cardViewPersona.setVisibility(View.VISIBLE);
+
+                        ApiAdapter.getApiService().getDatosPersona(ApiConstants.MODULO_PERSONA, BuildConfig.API_KEY,
+                                GlobalFunctions.formatRut(rut)).enqueue(new Callback<Persona>() {
+                            @Override
+                            public void onResponse(Call<Persona> call, Response<Persona> response) {
+                                Log.d("APISERVICE_RESPONSE",response.body().getCedula());
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Persona> call, Throwable t) {
+                                Log.d("APISERVICE_RESPONSE","nop");
+                            }
+                        });
+                    }else{
+                        Toast.makeText(getContext(), "El rut que ingresó no es valido", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
             }

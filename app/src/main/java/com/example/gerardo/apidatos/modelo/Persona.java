@@ -1,5 +1,8 @@
 package com.example.gerardo.apidatos.modelo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -130,4 +133,5 @@ public class Persona {
     public void setFechanacimiento(String fechanacimiento) {
         this.fechanacimiento = fechanacimiento;
     }
+
 }

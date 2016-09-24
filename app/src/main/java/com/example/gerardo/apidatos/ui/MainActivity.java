@@ -22,14 +22,24 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gerardo.apidatos.BuildConfig;
 import com.example.gerardo.apidatos.PagerAdapter;
 import com.example.gerardo.apidatos.R;
+import com.example.gerardo.apidatos.core.GlobalFunctions;
+import com.example.gerardo.apidatos.datos.ApiAdapter;
+import com.example.gerardo.apidatos.datos.ApiConstants;
+import com.example.gerardo.apidatos.modelo.Persona;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
@@ -67,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 //        viewPager.setCurrentItem(1,true);
 
         txtMensajePrincipal.setText(R.string.mensajeHomePersona);
+
+
 
     }
 
@@ -173,13 +185,31 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @OnClick(R.id.btn_buscar)
     public void onClick() {
-        Log.d("sender", "Broadcasting message");
-        Intent intent = new Intent("name");
 
-        // You can also include some extra data.
-        intent.putExtra("numFragment", viewPager.getCurrentItem());
-        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+        if (validarCampo(editValue)){
+
+            Intent intent = new Intent("name");
+
+            intent.putExtra("numFragment", viewPager.getCurrentItem());
+            intent.putExtra("valor", editValue.getText().toString().trim());
+
+            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+
+        }else{
+            Toast.makeText(MainActivity.this, "Inserte un valor antes de hacer la busqueda", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
+
+    private boolean validarCampo(EditText campo){
+        if (campo.getText().toString().trim().equals("")){
+            return false;
+        }
+        return true;
+    }
+
+
 
 
 
